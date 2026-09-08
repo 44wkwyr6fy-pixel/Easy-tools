@@ -3,76 +3,98 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EasyTools - Bitcoin Profit Calculator</title>
+<title>EasyTools - Free Online Calculators</title>
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f7fb;
+  color:#172033;
 }
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f7fb;
-  color: #172033;
+header{
+  background:#111827;
+  color:white;
+  text-align:center;
+  padding:30px 15px;
 }
-header {
-  background: #111827;
-  color: white;
-  text-align: center;
-  padding: 30px 15px;
+header h1{
+  margin:0;
+  font-size:36px;
 }
-header h1 {
-  margin: 0;
-  font-size: 36px;
+header p{
+  margin:8px 0 0;
+  color:#cbd5e1;
 }
-header p {
-  margin: 8px 0 0;
-  color: #cbd5e1;
+.container{
+  max-width:900px;
+  margin:25px auto;
+  padding:0 15px;
 }
-.container {
-  max-width: 600px;
-  margin: 25px auto;
-  padding: 0 15px;
+.card{
+  background:white;
+  border-radius:16px;
+  padding:22px;
+  margin-bottom:20px;
+  box-shadow:0 4px 15px rgba(0,0,0,.08);
 }
-.card {
-  background: white;
-  border-radius: 16px;
-  padding: 22px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+h2{
+  margin-top:0;
 }
-h2 {
-  margin-top: 0;
+label{
+  display:block;
+  margin-top:13px;
+  font-weight:bold;
 }
-label {
-  display: block;
-  margin-top: 15px;
-  font-weight: bold;
+input{
+  width:100%;
+  padding:12px;
+  margin-top:6px;
+  border:1px solid #ccd3df;
+  border-radius:9px;
+  font-size:16px;
 }
-input {
-  width: 100%;
-  padding: 12px;
-  margin-top: 6px;
-  border: 1px solid #ccd3df;
-  border-radius: 9px;
-  font-size: 16px;
+button{
+  width:100%;
+  padding:13px;
+  margin-top:18px;
+  border:0;
+  border-radius:9px;
+  background:#2563eb;
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer;
 }
-button {
-  width: 100%;
-  padding: 13px;
-  margin-top: 20px;
-  border: none;
-  border-radius: 9px;
-  background: #2563eb;
-  color: white;
-  font-size: 17px;
-  font-weight: bold;
+button:active{
+  transform:scale(.99);
 }
-#result {
-  display: none;
-  margin-top: 20px;
-  padding: 16px;
-  background: #eef4ff;
-  border-radius: 10px;
-  line-height: 1.8;
+.result{
+  display:none;
+  margin-top:18px;
+  padding:15px;
+  background:#eef4ff;
+  border-radius:10px;
+  line-height:1.8;
+  font-weight:bold;
+}
+.menu{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:20px;
+}
+.menu button{
+  width:auto;
+  flex:1;
+  min-width:120px;
+  margin:0;
+  font-size:14px;
+}
+footer{
+  text-align:center;
+  padding:25px;
+  color:#64748b;
 }
 </style>
 </head>
@@ -82,40 +104,241 @@ button {
   <p>Simple & Useful Online Tools</p>
 </header>
 <div class="container">
-  <div class="card">
-    <h2>₿ Bitcoin Profit Calculator</h2>
-    <label for="buyPrice">Buy Price (USD)</label>
-    <input id="buyPrice" type="number" step="any" placeholder="Example: 60000">
-    <label for="sellPrice">Sell Price (USD)</label>
-    <input id="sellPrice" type="number" step="any" placeholder="Example: 65000">
-    <label for="btcQuantity">Bitcoin Quantity (BTC)</label>
-    <input id="btcQuantity" type="number" step="any" placeholder="Example: 0.10">
-    <button type="button" onclick="calculateProfit()">Calculate</button>
-    <div id="result"></div>
-  </div>
+<div class="menu">
+  <button onclick="showTool('bitcoin')">₿ Bitcoin</button>
+  <button onclick="showTool('bmi')">⚖️ BMI</button>
+  <button onclick="showTool('emi')">🏦 EMI</button>
+  <button onclick="showTool('gst')">💰 GST</button>
+  <button onclick="showTool('percentage')">％ Percentage</button>
+  <button onclick="showTool('age')">🎂 Age</button>
 </div>
+<!-- BITCOIN -->
+<div class="card tool" id="bitcoin">
+<h2>₿ Bitcoin Profit Calculator</h2>
+<label>Buy Price (USD)</label>
+<input id="btcBuy" type="number" step="any" placeholder="Example: 60000">
+<label>Sell Price (USD)</label>
+<input id="btcSell" type="number" step="any" placeholder="Example: 65000">
+<label>Bitcoin Quantity (BTC)</label>
+<input id="btcQty" type="number" step="any" placeholder="Example: 0.10">
+<button type="button" onclick="bitcoinCalc()">Calculate</button>
+<div class="result" id="btcResult"></div>
+</div>
+<!-- BMI -->
+<div class="card tool" id="bmi" style="display:none">
+<h2>⚖️ BMI Calculator</h2>
+<label>Weight (kg)</label>
+<input id="bmiWeight" type="number" step="any" placeholder="Example: 60">
+<label>Height (cm)</label>
+<input id="bmiHeight" type="number" step="any" placeholder="Example: 170">
+<button type="button" onclick="bmiCalc()">Calculate BMI</button>
+<div class="result" id="bmiResult"></div>
+</div>
+<!-- EMI -->
+<div class="card tool" id="emi" style="display:none">
+<h2>🏦 EMI Calculator</h2>
+<label>Loan Amount (₹)</label>
+<input id="loan" type="number" step="any" placeholder="Example: 500000">
+<label>Annual Interest Rate (%)</label>
+<input id="rate" type="number" step="any" placeholder="Example: 10">
+<label>Loan Tenure (Years)</label>
+<input id="years" type="number" step="any" placeholder="Example: 5">
+<button type="button" onclick="emiCalc()">Calculate EMI</button>
+<div class="result" id="emiResult"></div>
+</div>
+<!-- GST -->
+<div class="card tool" id="gst" style="display:none">
+<h2>💰 GST Calculator</h2>
+<label>Amount (₹)</label>
+<input id="gstAmount" type="number" step="any" placeholder="Example: 1000">
+<label>GST Rate (%)</label>
+<input id="gstRate" type="number" step="any" placeholder="Example: 18">
+<button type="button" onclick="gstCalc()">Calculate GST</button>
+<div class="result" id="gstResult"></div>
+</div>
+<!-- PERCENTAGE -->
+<div class="card tool" id="percentage" style="display:none">
+<h2>％ Percentage Calculator</h2>
+<label>Percentage (%)</label>
+<input id="percent" type="number" step="any" placeholder="Example: 20">
+<label>Number</label>
+<input id="percentNumber" type="number" step="any" placeholder="Example: 500">
+<button type="button" onclick="percentageCalc()">Calculate</button>
+<div class="result" id="percentResult"></div>
+</div>
+<!-- AGE -->
+<div class="card tool" id="age" style="display:none">
+<h2>🎂 Age Calculator</h2>
+<label>Date of Birth</label>
+<input id="dob" type="date">
+<button type="button" onclick="ageCalc()">Calculate Age</button>
+<div class="result" id="ageResult"></div>
+</div>
+</div>
+<footer>
+EasyTools © 2026
+</footer>
 <script>
-function calculateProfit() {
-  const buy = Number(document.getElementById("buyPrice").value);
-  const sell = Number(document.getElementById("sellPrice").value);
-  const quantity = Number(document.getElementById("btcQuantity").value);
-  const result = document.getElementById("result");
-  if (buy <= 0 || sell <= 0 || quantity <= 0) {
-    result.style.display = "block";
-    result.innerHTML = "⚠️ Please enter all three values.";
+/* SHOW TOOLS */
+function showTool(id){
+  const tools=document.querySelectorAll(".tool");
+  tools.forEach(function(tool){
+    tool.style.display="none";
+  });
+  document.getElementById(id).style.display="block";
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+/* BITCOIN */
+function bitcoinCalc(){
+  const buy=Number(document.getElementById("btcBuy").value);
+  const sell=Number(document.getElementById("btcSell").value);
+  const qty=Number(document.getElementById("btcQty").value);
+  const result=document.getElementById("btcResult");
+  if(buy<=0 || sell<=0 || qty<=0){
+    result.style.display="block";
+    result.innerHTML="⚠️ Please enter Buy Price, Sell Price and Quantity.";
     return;
   }
-  const investment = buy * quantity;
-  const sellValue = sell * quantity;
-  const profit = sellValue - investment;
-  const percentage = (profit / investment) * 100;
-  const status = profit >= 0 ? "Profit" : "Loss";
-  result.style.display = "block";
-  result.innerHTML =
-    "<strong>Investment:</strong> $" + investment.toFixed(2) + "<br>" +
-    "<strong>Sell Value:</strong> $" + sellValue.toFixed(2) + "<br>" +
-    "<strong>" + status + ":</strong> $" + Math.abs(profit).toFixed(2) + "<br>" +
-    "<strong>Return:</strong> " + percentage.toFixed(2) + "%";
+  const investment=buy*qty;
+  const sellValue=sell*qty;
+  const profit=sellValue-investment;
+  const percentage=(profit/investment)*100;
+  result.style.display="block";
+  result.innerHTML=
+  "<strong>Investment:</strong> $"+investment.toFixed(2)+"<br>"+
+  "<strong>Sell Value:</strong> $"+sellValue.toFixed(2)+"<br>"+
+  "<strong>Profit/Loss:</strong> $"+profit.toFixed(2)+"<br>"+
+  "<strong>Return:</strong> "+percentage.toFixed(2)+"%";
+}
+/* BMI */
+function bmiCalc(){
+  const weight=Number(document.getElementById("bmiWeight").value);
+  const height=Number(document.getElementById("bmiHeight").value);
+  const result=document.getElementById("bmiResult");
+  if(weight<=0 || height<=0){
+    result.style.display="block";
+    result.innerHTML="⚠️ Please enter valid weight and height.";
+    return;
+  }
+  const heightM=height/100;
+  const bmi=weight/(heightM*heightM);
+  let category="";
+  if(bmi<18.5){
+    category="Underweight";
+  }else if(bmi<25){
+    category="Normal weight";
+  }else if(bmi<30){
+    category="Overweight";
+  }else{
+    category="Obesity";
+  }
+  result.style.display="block";
+  result.innerHTML=
+  "<strong>BMI:</strong> "+bmi.toFixed(2)+"<br>"+
+  "<strong>Category:</strong> "+category;
+}
+/* EMI */
+function emiCalc(){
+  const principal=Number(document.getElementById("loan").value);
+  const annualRate=Number(document.getElementById("rate").value);
+  const years=Number(document.getElementById("years").value);
+  const result=document.getElementById("emiResult");
+  if(principal<=0 || annualRate<0 || years<=0){
+    result.style.display="block";
+    result.innerHTML="⚠️ Please enter valid loan details.";
+    return;
+  }
+  const months=years*12;
+  const monthlyRate=annualRate/12/100;
+  let emi;
+  if(monthlyRate===0){
+    emi=principal/months;
+  }else{
+    emi=
+    principal*
+    monthlyRate*
+    Math.pow(1+monthlyRate,months)/
+    (Math.pow(1+monthlyRate,months)-1);
+  }
+  const totalPayment=emi*months;
+  const totalInterest=totalPayment-principal;
+  result.style.display="block";
+  result.innerHTML=
+  "<strong>Monthly EMI:</strong> ₹"+emi.toFixed(2)+"<br>"+
+  "<strong>Total Payment:</strong> ₹"+totalPayment.toFixed(2)+"<br>"+
+  "<strong>Total Interest:</strong> ₹"+totalInterest.toFixed(2);
+}
+/* GST */
+function gstCalc(){
+  const amount=Number(document.getElementById("gstAmount").value);
+  const rate=Number(document.getElementById("gstRate").value);
+  const result=document.getElementById("gstResult");
+  if(amount<0 || rate<0){
+    result.style.display="block";
+    result.innerHTML="⚠️ Please enter valid values.";
+    return;
+  }
+  const gst=amount*rate/100;
+  const total=amount+gst;
+  result.style.display="block";
+  result.innerHTML=
+  "<strong>GST Amount:</strong> ₹"+gst.toFixed(2)+"<br>"+
+  "<strong>Total Amount:</strong> ₹"+total.toFixed(2);
+}
+/* PERCENTAGE */
+function percentageCalc(){
+  const percent=Number(document.getElementById("percent").value);
+  const number=Number(document.getElementById("percentNumber").value);
+  const result=document.getElementById("percentResult");
+  if(percent<0 || number<0){
+    result.style.display="block";
+    result.innerHTML="⚠️ Please enter valid values.";
+    return;
+  }
+  const answer=percent*number/100;
+  result.style.display="block";
+  result.innerHTML=
+  "<strong>"+percent+"% of "+number+" = "+answer.toFixed(2)+"</strong>";
+}
+/* AGE */
+function ageCalc(){
+  const dobValue=document.getElementById("dob").value;
+  const result=document.getElementById("ageResult");
+  if(!dobValue){
+    result.style.display="block";
+    result.innerHTML="⚠️ Please select your date of birth.";
+    return;
+  }
+  const dob=new Date(dobValue);
+  const today=new Date();
+  let years=today.getFullYear()-dob.getFullYear();
+  let months=today.getMonth()-dob.getMonth();
+  let days=today.getDate()-dob.getDate();
+  if(days<0){
+    months--;
+    const previousMonth=new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      0
+    );
+    days+=previousMonth.getDate();
+  }
+  if(months<0){
+    years--;
+    months+=12;
+  }
+  if(dob>today){
+    result.style.display="block";
+    result.innerHTML="⚠️ Date of birth cannot be in the future.";
+    return;
+  }
+  result.style.display="block";
+  result.innerHTML=
+  "<strong>Age:</strong> "+years+" years, "+
+  months+" months, "+days+" days";
 }
 </script>
 </body>
