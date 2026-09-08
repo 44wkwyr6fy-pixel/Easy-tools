@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EasyTools - Free Online Calculators</title>
+<title>EasyTools - Free Calculators</title>
 <style>
 *{box-sizing:border-box}
 body{
@@ -27,9 +27,24 @@ header p{
   color:#cbd5e1;
 }
 .container{
-  max-width:900px;
+  max-width:700px;
   margin:25px auto;
   padding:0 15px;
+}
+.menu{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin-bottom:20px;
+}
+.menu button{
+  padding:14px 8px;
+  border:0;
+  border-radius:10px;
+  background:#2563eb;
+  color:white;
+  font-size:15px;
+  font-weight:bold;
 }
 .card{
   background:white;
@@ -38,15 +53,17 @@ header p{
   margin-bottom:20px;
   box-shadow:0 4px 15px rgba(0,0,0,.08);
 }
+.tool{display:none}
+.tool.active{display:block}
 h2{
   margin-top:0;
 }
 label{
   display:block;
-  margin-top:13px;
+  margin-top:14px;
   font-weight:bold;
 }
-input{
+input,select{
   width:100%;
   padding:12px;
   margin-top:6px;
@@ -54,20 +71,16 @@ input{
   border-radius:9px;
   font-size:16px;
 }
-button{
+.calculate{
   width:100%;
   padding:13px;
-  margin-top:18px;
+  margin-top:20px;
   border:0;
   border-radius:9px;
-  background:#2563eb;
+  background:#111827;
   color:white;
   font-size:17px;
   font-weight:bold;
-  cursor:pointer;
-}
-button:active{
-  transform:scale(.99);
 }
 .result{
   display:none;
@@ -78,19 +91,6 @@ button:active{
   line-height:1.8;
   font-weight:bold;
 }
-.menu{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-bottom:20px;
-}
-.menu button{
-  width:auto;
-  flex:1;
-  min-width:120px;
-  margin:0;
-  font-size:14px;
-}
 footer{
   text-align:center;
   padding:25px;
@@ -100,245 +100,228 @@ footer{
 </head>
 <body>
 <header>
-  <h1>EasyTools</h1>
-  <p>Simple & Useful Online Tools</p>
+<h1>EasyTools</h1>
+<p>Simple & Useful Online Calculators</p>
 </header>
 <div class="container">
 <div class="menu">
-  <button onclick="showTool('bitcoin')">₿ Bitcoin</button>
-  <button onclick="showTool('bmi')">⚖️ BMI</button>
-  <button onclick="showTool('emi')">🏦 EMI</button>
-  <button onclick="showTool('gst')">💰 GST</button>
-  <button onclick="showTool('percentage')">％ Percentage</button>
-  <button onclick="showTool('age')">🎂 Age</button>
+<button onclick="showTool('bitcoin')">₿ Bitcoin</button>
+<button onclick="showTool('bmi')">⚖️ BMI</button>
+<button onclick="showTool('percentage')">📊 Percentage</button>
+<button onclick="showTool('simple')">💰 Simple Interest</button>
+<button onclick="showTool('compound')">📈 Compound Interest</button>
+<button onclick="showTool('gst')">🧾 GST</button>
 </div>
 <!-- BITCOIN -->
-<div class="card tool" id="bitcoin">
+<div id="bitcoin" class="card tool active">
 <h2>₿ Bitcoin Profit Calculator</h2>
 <label>Buy Price (USD)</label>
-<input id="btcBuy" type="number" step="any" placeholder="Example: 60000">
+<input id="btcBuy" type="number" step="any" placeholder="60000">
 <label>Sell Price (USD)</label>
-<input id="btcSell" type="number" step="any" placeholder="Example: 65000">
+<input id="btcSell" type="number" step="any" placeholder="65000">
 <label>Bitcoin Quantity (BTC)</label>
-<input id="btcQty" type="number" step="any" placeholder="Example: 0.10">
-<button type="button" onclick="bitcoinCalc()">Calculate</button>
-<div class="result" id="btcResult"></div>
+<input id="btcQty" type="number" step="any" placeholder="0.10">
+<button class="calculate" onclick="bitcoinCalc()">Calculate</button>
+<div id="btcResult" class="result"></div>
 </div>
 <!-- BMI -->
-<div class="card tool" id="bmi" style="display:none">
+<div id="bmi" class="card tool">
 <h2>⚖️ BMI Calculator</h2>
 <label>Weight (kg)</label>
-<input id="bmiWeight" type="number" step="any" placeholder="Example: 60">
+<input id="weight" type="number" step="any" placeholder="60">
 <label>Height (cm)</label>
-<input id="bmiHeight" type="number" step="any" placeholder="Example: 170">
-<button type="button" onclick="bmiCalc()">Calculate BMI</button>
-<div class="result" id="bmiResult"></div>
-</div>
-<!-- EMI -->
-<div class="card tool" id="emi" style="display:none">
-<h2>🏦 EMI Calculator</h2>
-<label>Loan Amount (₹)</label>
-<input id="loan" type="number" step="any" placeholder="Example: 500000">
-<label>Annual Interest Rate (%)</label>
-<input id="rate" type="number" step="any" placeholder="Example: 10">
-<label>Loan Tenure (Years)</label>
-<input id="years" type="number" step="any" placeholder="Example: 5">
-<button type="button" onclick="emiCalc()">Calculate EMI</button>
-<div class="result" id="emiResult"></div>
-</div>
-<!-- GST -->
-<div class="card tool" id="gst" style="display:none">
-<h2>💰 GST Calculator</h2>
-<label>Amount (₹)</label>
-<input id="gstAmount" type="number" step="any" placeholder="Example: 1000">
-<label>GST Rate (%)</label>
-<input id="gstRate" type="number" step="any" placeholder="Example: 18">
-<button type="button" onclick="gstCalc()">Calculate GST</button>
-<div class="result" id="gstResult"></div>
+<input id="height" type="number" step="any" placeholder="170">
+<button class="calculate" onclick="bmiCalc()">Calculate BMI</button>
+<div id="bmiResult" class="result"></div>
 </div>
 <!-- PERCENTAGE -->
-<div class="card tool" id="percentage" style="display:none">
-<h2>％ Percentage Calculator</h2>
+<div id="percentage" class="card tool">
+<h2>📊 Percentage Calculator</h2>
 <label>Percentage (%)</label>
-<input id="percent" type="number" step="any" placeholder="Example: 20">
+<input id="percent" type="number" step="any" placeholder="20">
 <label>Number</label>
-<input id="percentNumber" type="number" step="any" placeholder="Example: 500">
-<button type="button" onclick="percentageCalc()">Calculate</button>
-<div class="result" id="percentResult"></div>
+<input id="percentNumber" type="number" step="any" placeholder="500">
+<button class="calculate" onclick="percentageCalc()">Calculate</button>
+<div id="percentageResult" class="result"></div>
 </div>
-<!-- AGE -->
-<div class="card tool" id="age" style="display:none">
-<h2>🎂 Age Calculator</h2>
-<label>Date of Birth</label>
-<input id="dob" type="date">
-<button type="button" onclick="ageCalc()">Calculate Age</button>
-<div class="result" id="ageResult"></div>
+<!-- SIMPLE INTEREST -->
+<div id="simple" class="card tool">
+<h2>💰 Simple Interest Calculator</h2>
+<label>Principal Amount (₹)</label>
+<input id="siPrincipal" type="number" step="any" placeholder="10000">
+<label>Interest Rate (% per year)</label>
+<input id="siRate" type="number" step="any" placeholder="10">
+<label>Time (Years)</label>
+<input id="siTime" type="number" step="any" placeholder="2">
+<button class="calculate" onclick="simpleInterestCalc()">Calculate</button>
+<div id="siResult" class="result"></div>
+</div>
+<!-- COMPOUND INTEREST -->
+<div id="compound" class="card tool">
+<h2>📈 Compound Interest Calculator</h2>
+<label>Principal Amount (₹)</label>
+<input id="ciPrincipal" type="number" step="any" placeholder="10000">
+<label>Interest Rate (% per year)</label>
+<input id="ciRate" type="number" step="any" placeholder="10">
+<label>Time (Years)</label>
+<input id="ciTime" type="number" step="any" placeholder="2">
+<label>Compounding</label>
+<select id="ciFrequency">
+<option value="1">Yearly</option>
+<option value="2">Half-Yearly</option>
+<option value="4">Quarterly</option>
+<option value="12">Monthly</option>
+</select>
+<button class="calculate" onclick="compoundInterestCalc()">Calculate</button>
+<div id="ciResult" class="result"></div>
+</div>
+<!-- GST -->
+<div id="gst" class="card tool">
+<h2>🧾 GST Calculator</h2>
+<label>Amount (₹)</label>
+<input id="gstAmount" type="number" step="any" placeholder="1000">
+<label>GST Rate (%)</label>
+<input id="gstRate" type="number" step="any" placeholder="18">
+<button class="calculate" onclick="gstCalc()">Calculate GST</button>
+<div id="gstResult" class="result"></div>
 </div>
 </div>
 <footer>
 EasyTools © 2026
 </footer>
 <script>
-/* SHOW TOOLS */
 function showTool(id){
-  const tools=document.querySelectorAll(".tool");
-  tools.forEach(function(tool){
-    tool.style.display="none";
-  });
-  document.getElementById(id).style.display="block";
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
+document.querySelectorAll(".tool").forEach(function(tool){
+tool.classList.remove("active");
+});
+document.getElementById(id).classList.add("active");
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
 }
 /* BITCOIN */
 function bitcoinCalc(){
-  const buy=Number(document.getElementById("btcBuy").value);
-  const sell=Number(document.getElementById("btcSell").value);
-  const qty=Number(document.getElementById("btcQty").value);
-  const result=document.getElementById("btcResult");
-  if(buy<=0 || sell<=0 || qty<=0){
-    result.style.display="block";
-    result.innerHTML="⚠️ Please enter Buy Price, Sell Price and Quantity.";
-    return;
-  }
-  const investment=buy*qty;
-  const sellValue=sell*qty;
-  const profit=sellValue-investment;
-  const percentage=(profit/investment)*100;
-  result.style.display="block";
-  result.innerHTML=
-  "<strong>Investment:</strong> $"+investment.toFixed(2)+"<br>"+
-  "<strong>Sell Value:</strong> $"+sellValue.toFixed(2)+"<br>"+
-  "<strong>Profit/Loss:</strong> $"+profit.toFixed(2)+"<br>"+
-  "<strong>Return:</strong> "+percentage.toFixed(2)+"%";
+const buy=Number(document.getElementById("btcBuy").value);
+const sell=Number(document.getElementById("btcSell").value);
+const qty=Number(document.getElementById("btcQty").value);
+const result=document.getElementById("btcResult");
+if(buy<=0 || sell<=0 || qty<=0){
+result.style.display="block";
+result.innerHTML="⚠️ Please enter all Bitcoin values.";
+return;
+}
+const investment=buy*qty;
+const sellValue=sell*qty;
+const profit=sellValue-investment;
+const percentage=(profit/investment)*100;
+result.style.display="block";
+result.innerHTML=
+"Investment: $"+investment.toFixed(2)+"<br>"+
+"Sell Value: $"+sellValue.toFixed(2)+"<br>"+
+"Profit/Loss: $"+profit.toFixed(2)+"<br>"+
+"Return: "+percentage.toFixed(2)+"%";
 }
 /* BMI */
 function bmiCalc(){
-  const weight=Number(document.getElementById("bmiWeight").value);
-  const height=Number(document.getElementById("bmiHeight").value);
-  const result=document.getElementById("bmiResult");
-  if(weight<=0 || height<=0){
-    result.style.display="block";
-    result.innerHTML="⚠️ Please enter valid weight and height.";
-    return;
-  }
-  const heightM=height/100;
-  const bmi=weight/(heightM*heightM);
-  let category="";
-  if(bmi<18.5){
-    category="Underweight";
-  }else if(bmi<25){
-    category="Normal weight";
-  }else if(bmi<30){
-    category="Overweight";
-  }else{
-    category="Obesity";
-  }
-  result.style.display="block";
-  result.innerHTML=
-  "<strong>BMI:</strong> "+bmi.toFixed(2)+"<br>"+
-  "<strong>Category:</strong> "+category;
+const weight=Number(document.getElementById("weight").value);
+const height=Number(document.getElementById("height").value);
+const result=document.getElementById("bmiResult");
+if(weight<=0 || height<=0){
+result.style.display="block";
+result.innerHTML="⚠️ Please enter valid weight and height.";
+return;
 }
-/* EMI */
-function emiCalc(){
-  const principal=Number(document.getElementById("loan").value);
-  const annualRate=Number(document.getElementById("rate").value);
-  const years=Number(document.getElementById("years").value);
-  const result=document.getElementById("emiResult");
-  if(principal<=0 || annualRate<0 || years<=0){
-    result.style.display="block";
-    result.innerHTML="⚠️ Please enter valid loan details.";
-    return;
-  }
-  const months=years*12;
-  const monthlyRate=annualRate/12/100;
-  let emi;
-  if(monthlyRate===0){
-    emi=principal/months;
-  }else{
-    emi=
-    principal*
-    monthlyRate*
-    Math.pow(1+monthlyRate,months)/
-    (Math.pow(1+monthlyRate,months)-1);
-  }
-  const totalPayment=emi*months;
-  const totalInterest=totalPayment-principal;
-  result.style.display="block";
-  result.innerHTML=
-  "<strong>Monthly EMI:</strong> ₹"+emi.toFixed(2)+"<br>"+
-  "<strong>Total Payment:</strong> ₹"+totalPayment.toFixed(2)+"<br>"+
-  "<strong>Total Interest:</strong> ₹"+totalInterest.toFixed(2);
+const heightMeter=height/100;
+const bmi=weight/(heightMeter*heightMeter);
+let category;
+if(bmi<18.5){
+category="Underweight";
+}else if(bmi<25){
+category="Normal";
+}else if(bmi<30){
+category="Overweight";
+}else{
+category="Obesity";
 }
-/* GST */
-function gstCalc(){
-  const amount=Number(document.getElementById("gstAmount").value);
-  const rate=Number(document.getElementById("gstRate").value);
-  const result=document.getElementById("gstResult");
-  if(amount<0 || rate<0){
-    result.style.display="block";
-    result.innerHTML="⚠️ Please enter valid values.";
-    return;
-  }
-  const gst=amount*rate/100;
-  const total=amount+gst;
-  result.style.display="block";
-  result.innerHTML=
-  "<strong>GST Amount:</strong> ₹"+gst.toFixed(2)+"<br>"+
-  "<strong>Total Amount:</strong> ₹"+total.toFixed(2);
+result.style.display="block";
+result.innerHTML=
+"BMI: "+bmi.toFixed(2)+"<br>"+
+"Category: "+category;
 }
 /* PERCENTAGE */
 function percentageCalc(){
-  const percent=Number(document.getElementById("percent").value);
-  const number=Number(document.getElementById("percentNumber").value);
-  const result=document.getElementById("percentResult");
-  if(percent<0 || number<0){
-    result.style.display="block";
-    result.innerHTML="⚠️ Please enter valid values.";
-    return;
-  }
-  const answer=percent*number/100;
-  result.style.display="block";
-  result.innerHTML=
-  "<strong>"+percent+"% of "+number+" = "+answer.toFixed(2)+"</strong>";
+const percent=Number(document.getElementById("percent").value);
+const number=Number(document.getElementById("percentNumber").value);
+const result=document.getElementById("percentageResult");
+if(percent<0 || number<0){
+result.style.display="block";
+result.innerHTML="⚠️ Please enter valid values.";
+return;
 }
-/* AGE */
-function ageCalc(){
-  const dobValue=document.getElementById("dob").value;
-  const result=document.getElementById("ageResult");
-  if(!dobValue){
-    result.style.display="block";
-    result.innerHTML="⚠️ Please select your date of birth.";
-    return;
-  }
-  const dob=new Date(dobValue);
-  const today=new Date();
-  let years=today.getFullYear()-dob.getFullYear();
-  let months=today.getMonth()-dob.getMonth();
-  let days=today.getDate()-dob.getDate();
-  if(days<0){
-    months--;
-    const previousMonth=new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      0
-    );
-    days+=previousMonth.getDate();
-  }
-  if(months<0){
-    years--;
-    months+=12;
-  }
-  if(dob>today){
-    result.style.display="block";
-    result.innerHTML="⚠️ Date of birth cannot be in the future.";
-    return;
-  }
-  result.style.display="block";
-  result.innerHTML=
-  "<strong>Age:</strong> "+years+" years, "+
-  months+" months, "+days+" days";
+const answer=(percent/100)*number;
+result.style.display="block";
+result.innerHTML=
+percent+"% of "+number+" = "+answer.toFixed(2);
+}
+/* SIMPLE INTEREST */
+function simpleInterestCalc(){
+const principal=Number(document.getElementById("siPrincipal").value);
+const rate=Number(document.getElementById("siRate").value);
+const time=Number(document.getElementById("siTime").value);
+const result=document.getElementById("siResult");
+if(principal<=0 || rate<0 || time<=0){
+result.style.display="block";
+result.innerHTML="⚠️ Please enter valid values.";
+return;
+}
+const interest=(principal*rate*time)/100;
+const total=principal+interest;
+result.style.display="block";
+result.innerHTML=
+"Simple Interest: ₹"+interest.toFixed(2)+"<br>"+
+"Total Amount: ₹"+total.toFixed(2);
+}
+/* COMPOUND INTEREST */
+function compoundInterestCalc(){
+const principal=Number(document.getElementById("ciPrincipal").value);
+const rate=Number(document.getElementById("ciRate").value);
+const time=Number(document.getElementById("ciTime").value);
+const frequency=Number(document.getElementById("ciFrequency").value);
+const result=document.getElementById("ciResult");
+if(principal<=0 || rate<0 || time<=0){
+result.style.display="block";
+result.innerHTML="⚠️ Please enter valid values.";
+return;
+}
+const amount=
+principal*
+Math.pow(
+1+(rate/100)/frequency,
+frequency*time
+);
+const interest=amount-principal;
+result.style.display="block";
+result.innerHTML=
+"Compound Interest: ₹"+interest.toFixed(2)+"<br>"+
+"Total Amount: ₹"+amount.toFixed(2);
+}
+/* GST */
+function gstCalc(){
+const amount=Number(document.getElementById("gstAmount").value);
+const rate=Number(document.getElementById("gstRate").value);
+const result=document.getElementById("gstResult");
+if(amount<0 || rate<0){
+result.style.display="block";
+result.innerHTML="⚠️ Please enter valid values.";
+return;
+}
+const gst=(amount*rate)/100;
+const total=amount+gst;
+result.style.display="block";
+result.innerHTML=
+"GST Amount: ₹"+gst.toFixed(2)+"<br>"+
+"Total Amount: ₹"+total.toFixed(2);
 }
 </script>
 </body>
