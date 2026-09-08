@@ -1,141 +1,118 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EasyTools</title>
-
+<title>Easy Tools - Bitcoin Calculator</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#172033}
-header{background:#111827;color:white;text-align:center;padding:35px 15px}
-header h1{margin:0;font-size:38px}
-header p{color:#cbd5e1;margin:8px 0 0}
-.container{max-width:900px;margin:25px auto;padding:0 15px}
-.card{background:white;border-radius:18px;padding:22px;margin-bottom:20px;box-shadow:0 4px 15px rgba(0,0,0,.08)}
-h2{margin-top:0}
-label{display:block;margin-top:12px;font-weight:bold}
-input{width:100%;padding:12px;margin-top:6px;border:1px solid #ccd3df;border-radius:9px;font-size:16px}
-button{width:100%;padding:13px;margin-top:18px;border:0;border-radius:9px;background:#2563eb;color:white;font-size:16px;font-weight:bold}
-.result{margin-top:15px;padding:14px;background:#eef4ff;border-radius:9px;font-weight:bold}
-footer{text-align:center;padding:25px;color:#64748b}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f7fb;
+  color:#172033;
+}
+header{
+  background:#111827;
+  color:white;
+  text-align:center;
+  padding:30px 15px;
+}
+header h1{
+  margin:0;
+  font-size:36px;
+}
+header p{
+  margin:8px 0 0;
+  color:#cbd5e1;
+}
+.container{
+  max-width:900px;
+  margin:25px auto;
+  padding:0 15px;
+}
+.card{
+  background:white;
+  border-radius:16px;
+  padding:22px;
+  margin-bottom:20px;
+  box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+h2{
+  margin-top:0;
+}
+label{
+  display:block;
+  margin-top:12px;
+  font-weight:bold;
+}
+input{
+  width:100%;
+  padding:12px;
+  margin-top:6px;
+  border:1px solid #ccd3df;
+  border-radius:9px;
+  font-size:16px;
+}
+button{
+  width:100%;
+  padding:13px;
+  margin-top:18px;
+  border:0;
+  border-radius:9px;
+  background:#111827;
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer;
+}
+#result{
+  margin-top:18px;
+  padding:15px;
+  background:#f1f5f9;
+  border-radius:10px;
+  font-size:18px;
+  line-height:1.7;
+}
 </style>
 </head>
-
 <body>
-
 <header>
-<h1>EasyTools</h1>
-<p>Simple & Free Online Tools</p>
+  <h1>Easy Tools</h1>
+  <p>Simple & Useful Online Tools</p>
 </header>
-
 <div class="container">
-
 <div class="card">
-<h2>₿ Bitcoin Profit / Loss</h2>
-
-<label>Buy Price ($)</label>
-<input id="buy" type="number" placeholder="60000">
-
-<label>Sell Price ($)</label>
-<input id="sell" type="number" placeholder="65000">
-
-<label>Bitcoin Quantity</label>
-<input id="btc" type="number" step="0.000001" placeholder="0.10">
-
-<button onclick="bitcoin()">Calculate</button>
-
-<div id="btcResult" class="result">Result will appear here</div>
+  <h2>₿ Bitcoin Profit Calculator</h2>
+  <label>Buy Price (USD)</label>
+  <input type="number" id="buy" placeholder="Example: 60000">
+  <label>Sell Price (USD)</label>
+  <input type="number" id="sell" placeholder="Example: 65000">
+  <label>Bitcoin Quantity (BTC)</label>
+  <input type="number" id="quantity" step="0.00000001" placeholder="Example: 0.10">
+  <button onclick="calculateProfit()">Calculate</button>
+  <div id="result"></div>
 </div>
-
-
-<div class="card">
-<h2>⚖️ Height & Weight / BMI</h2>
-
-<label>Height (cm)</label>
-<input id="height" type="number" placeholder="170">
-
-<label>Weight (kg)</label>
-<input id="weight" type="number" placeholder="60">
-
-<button onclick="bmi()">Calculate BMI</button>
-
-<div id="bmiResult" class="result">Result will appear here</div>
 </div>
-
-
-<div class="card">
-<h2>💰 Hisaab-Kitaab</h2>
-
-<label>Income (₹)</label>
-<input id="income" type="number" placeholder="50000">
-
-<label>Expenses (₹)</label>
-<input id="expense" type="number" placeholder="20000">
-
-<button onclick="money()">Calculate Balance</button>
-
-<div id="moneyResult" class="result">Result will appear here</div>
-</div>
-
-</div>
-
-<footer>
-© 2026 EasyTools
-</footer>
-
 <script>
-
-function bitcoin(){
-let buy=Number(document.getElementById("buy").value);
-let sell=Number(document.getElementById("sell").value);
-let btc=Number(document.getElementById("btc").value);
-
-if(!buy||!sell||!btc){
-document.getElementById("btcResult").innerText="Please enter all values.";
-return;
+function calculateProfit(){
+  let buy = parseFloat(document.getElementById("buy").value);
+  let sell = parseFloat(document.getElementById("sell").value);
+  let quantity = parseFloat(document.getElementById("quantity").value);
+  if(isNaN(buy) || isNaN(sell) || isNaN(quantity)){
+    document.getElementById("result").innerHTML =
+      "⚠️ Please enter Buy Price, Sell Price and BTC Quantity.";
+    return;
+  }
+  let investment = buy * quantity;
+  let sellingValue = sell * quantity;
+  let profit = sellingValue - investment;
+  let percentage = (profit / investment) * 100;
+  document.getElementById("result").innerHTML =
+    "<b>Investment:</b> $" + investment.toFixed(2) + "<br>" +
+    "<b>Sell Value:</b> $" + sellingValue.toFixed(2) + "<br>" +
+    "<b>Profit/Loss:</b> $" + profit.toFixed(2) + "<br>" +
+    "<b>Return:</b> " + percentage.toFixed(2) + "%";
 }
-
-let profit=(sell-buy)*btc;
-let type=profit>=0?"Profit":"Loss";
-
-document.getElementById("btcResult").innerText=
-type+": $"+Math.abs(profit).toFixed(2);
-}
-
-
-function bmi(){
-let h=Number(document.getElementById("height").value);
-let w=Number(document.getElementById("weight").value);
-
-if(!h||!w){
-document.getElementById("bmiResult").innerText="Please enter height and weight.";
-return;
-}
-
-let value=w/((h/100)*(h/100));
-let status="";
-
-if(value<18.5)status="Underweight";
-else if(value<25)status="Normal";
-else if(value<30)status="Overweight";
-else status="Obese";
-
-document.getElementById("bmiResult").innerText=
-"BMI: "+value.toFixed(1)+" — "+status;
-}
-
-
-function money(){
-let income=Number(document.getElementById("income").value);
-let expense=Number(document.getElementById("expense").value);
-
-if(!income||!expense){
-document.getElementById("moneyResult").innerText="Please enter income and expenses.";
-return;
-}
-
-let balance=income-expense;
-
-document.getElementById("moneyResult").innerText=
-"Remaining Balance: ₹"+balance.toFixed(
+</script>
+</body>
+</html>
