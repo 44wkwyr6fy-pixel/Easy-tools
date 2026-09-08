@@ -1,117 +1,121 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Easy Tools - Bitcoin Calculator</title>
+<title>EasyTools - Bitcoin Profit Calculator</title>
 <style>
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#f4f7fb;
-  color:#172033;
+* {
+  box-sizing: border-box;
 }
-header{
-  background:#111827;
-  color:white;
-  text-align:center;
-  padding:30px 15px;
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f7fb;
+  color: #172033;
 }
-header h1{
-  margin:0;
-  font-size:36px;
+header {
+  background: #111827;
+  color: white;
+  text-align: center;
+  padding: 30px 15px;
 }
-header p{
-  margin:8px 0 0;
-  color:#cbd5e1;
+header h1 {
+  margin: 0;
+  font-size: 36px;
 }
-.container{
-  max-width:900px;
-  margin:25px auto;
-  padding:0 15px;
+header p {
+  margin: 8px 0 0;
+  color: #cbd5e1;
 }
-.card{
-  background:white;
-  border-radius:16px;
-  padding:22px;
-  margin-bottom:20px;
-  box-shadow:0 4px 15px rgba(0,0,0,.08);
+.container {
+  max-width: 600px;
+  margin: 25px auto;
+  padding: 0 15px;
 }
-h2{
-  margin-top:0;
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
 }
-label{
-  display:block;
-  margin-top:12px;
-  font-weight:bold;
+h2 {
+  margin-top: 0;
 }
-input{
-  width:100%;
-  padding:12px;
-  margin-top:6px;
-  border:1px solid #ccd3df;
-  border-radius:9px;
-  font-size:16px;
+label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
 }
-button{
-  width:100%;
-  padding:13px;
-  margin-top:18px;
-  border:0;
-  border-radius:9px;
-  background:#111827;
-  color:white;
-  font-size:17px;
-  font-weight:bold;
-  cursor:pointer;
+input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  border: 1px solid #ccd3df;
+  border-radius: 9px;
+  font-size: 16px;
 }
-#result{
-  margin-top:18px;
-  padding:15px;
-  background:#f1f5f9;
-  border-radius:10px;
-  font-size:18px;
-  line-height:1.7;
+button {
+  width: 100%;
+  padding: 13px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 9px;
+  background: #2563eb;
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+}
+#result {
+  display: none;
+  margin-top: 20px;
+  padding: 16px;
+  background: #eef4ff;
+  border-radius: 10px;
+  line-height: 1.8;
 }
 </style>
 </head>
 <body>
 <header>
-  <h1>Easy Tools</h1>
+  <h1>EasyTools</h1>
   <p>Simple & Useful Online Tools</p>
 </header>
 <div class="container">
-<div class="card">
-  <h2>₿ Bitcoin Profit Calculator</h2>
-  <label>Buy Price (USD)</label>
-  <input type="number" id="buy" placeholder="Example: 60000">
-  <label>Sell Price (USD)</label>
-  <input type="number" id="sell" placeholder="Example: 65000">
-  <label>Bitcoin Quantity (BTC)</label>
-  <input type="number" id="quantity" step="0.00000001" placeholder="Example: 0.10">
-  <button onclick="calculateProfit()">Calculate</button>
-  <div id="result"></div>
-</div>
+  <div class="card">
+    <h2>₿ Bitcoin Profit Calculator</h2>
+    <label for="buyPrice">Buy Price (USD)</label>
+    <input id="buyPrice" type="number" step="any" placeholder="Example: 60000">
+    <label for="sellPrice">Sell Price (USD)</label>
+    <input id="sellPrice" type="number" step="any" placeholder="Example: 65000">
+    <label for="btcQuantity">Bitcoin Quantity (BTC)</label>
+    <input id="btcQuantity" type="number" step="any" placeholder="Example: 0.10">
+    <button type="button" onclick="calculateProfit()">Calculate</button>
+    <div id="result"></div>
+  </div>
 </div>
 <script>
-function calculateProfit(){
-  let buy = parseFloat(document.getElementById("buy").value);
-  let sell = parseFloat(document.getElementById("sell").value);
-  let quantity = parseFloat(document.getElementById("quantity").value);
-  if(isNaN(buy) || isNaN(sell) || isNaN(quantity)){
-    document.getElementById("result").innerHTML =
-      "⚠️ Please enter Buy Price, Sell Price and BTC Quantity.";
+function calculateProfit() {
+  const buy = Number(document.getElementById("buyPrice").value);
+  const sell = Number(document.getElementById("sellPrice").value);
+  const quantity = Number(document.getElementById("btcQuantity").value);
+  const result = document.getElementById("result");
+  if (buy <= 0 || sell <= 0 || quantity <= 0) {
+    result.style.display = "block";
+    result.innerHTML = "⚠️ Please enter all three values.";
     return;
   }
-  let investment = buy * quantity;
-  let sellingValue = sell * quantity;
-  let profit = sellingValue - investment;
-  let percentage = (profit / investment) * 100;
-  document.getElementById("result").innerHTML =
-    "<b>Investment:</b> $" + investment.toFixed(2) + "<br>" +
-    "<b>Sell Value:</b> $" + sellingValue.toFixed(2) + "<br>" +
-    "<b>Profit/Loss:</b> $" + profit.toFixed(2) + "<br>" +
-    "<b>Return:</b> " + percentage.toFixed(2) + "%";
+  const investment = buy * quantity;
+  const sellValue = sell * quantity;
+  const profit = sellValue - investment;
+  const percentage = (profit / investment) * 100;
+  const status = profit >= 0 ? "Profit" : "Loss";
+  result.style.display = "block";
+  result.innerHTML =
+    "<strong>Investment:</strong> $" + investment.toFixed(2) + "<br>" +
+    "<strong>Sell Value:</strong> $" + sellValue.toFixed(2) + "<br>" +
+    "<strong>" + status + ":</strong> $" + Math.abs(profit).toFixed(2) + "<br>" +
+    "<strong>Return:</strong> " + percentage.toFixed(2) + "%";
 }
 </script>
 </body>
